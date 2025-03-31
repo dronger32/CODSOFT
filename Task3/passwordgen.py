@@ -1,5 +1,7 @@
 import random
 import string
+import secrets
+import pyperclip
 
 def generate_password():
     try:
@@ -24,11 +26,22 @@ def generate_password():
             print("You must include at least one type of character.")
             return
         
-        password = ''.join(random.choice(characters) for _ in range(length))
+        password = ''.join(secrets.choice(characters) for _ in range(length))
         
         print("\nGenerated Password: ", password)
+        
+        copy_to_clipboard = input("Would you like to copy the password to the clipboard? (yes/no): ").strip().lower()
+        if copy_to_clipboard == "yes":
+            pyperclip.copy(password)
+            print("Password copied to clipboard!")
+        
     except ValueError:
         print("Invalid input! Please enter a valid number.")
+
+def save_password_to_file(password):
+    with open("passwords.txt", "a") as file:
+        file.write(password + "\n")
+    print("Password saved to passwords.txt")
 
 def main():
     print("Welcome to the Secure Password Generator!")
@@ -41,3 +54,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
